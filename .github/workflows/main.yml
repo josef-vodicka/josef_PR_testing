@@ -1,16 +1,13 @@
 name: Trigger Power Automate
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    types: [opened, closed, synchronize]
-  # or run on any event you need, e.g. workflow_dispatch for manual trigger:
-  workflow_dispatch:
+    types: [review_requested]
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
+    if: contains(fromJSON('["josef-vodicka", "reviewer-username-2"]'), github.event.requested_reviewer.login)
     steps:
       - name: Call Power Automate Flow
         run: |
@@ -24,5 +21,6 @@ jobs:
               "sha": "${{ github.sha }}",
               "pr_number": "${{ github.event.pull_request.number }}",
               "pr_title": "${{ github.event.pull_request.title }}",
-              "pr_action": "${{ github.event.action }}"
+              "pr_action": "${{ github.event.action }}",
+              "requested_reviewer": "${{ github.event.requested_reviewer.login }}"
             }'
