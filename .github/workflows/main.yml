@@ -7,7 +7,7 @@ on:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-    if: contains(fromJSON('["josef-vodicka", "reviewer-username-2"]'), github.event.requested_reviewer.login)
+    if: contains(fromJSON('["josef-vodicka"]'), github.event.requested_reviewer.login)
     steps:
       - name: Call Power Automate Flow
         run: |
