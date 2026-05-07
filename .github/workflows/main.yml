@@ -1,0 +1,28 @@
+name: Trigger Power Automate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, closed, synchronize]
+  # or run on any event you need, e.g. workflow_dispatch for manual trigger:
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call Power Automate Flow
+        run: |
+          curl -X POST "${{ secrets.POWER_AUTOMATE_URL }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "repo": "${{ github.repository }}",
+              "event": "${{ github.event_name }}",
+              "ref": "${{ github.ref }}",
+              "actor": "${{ github.actor }}",
+              "sha": "${{ github.sha }}",
+              "pr_number": "${{ github.event.pull_request.number }}",
+              "pr_title": "${{ github.event.pull_request.title }}",
+              "pr_action": "${{ github.event.action }}"
+            }'
