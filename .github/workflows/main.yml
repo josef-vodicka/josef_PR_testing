@@ -2,12 +2,12 @@ name: Trigger Power Automate
 
 on:
   pull_request:
-    types: [review_requested, review_request_removed]
+    types: [review_requested]
 
 jobs:
   trigger:
     runs-on: ubuntu-latest
-    if: contains(fromJSON('["JosefVodicka"]'), github.event.requested_reviewer.login)
+    if: github.event.requested_reviewer.login == 'JosefVodicka'
     steps:
       - name: Call Power Automate Flow
         run: |
