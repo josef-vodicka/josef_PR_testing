@@ -2,7 +2,7 @@ name: Trigger Power Automate
 
 on:
   pull_request:
-    types: [review_requested]
+    types: [review_requested, review_request_removed]
 
 jobs:
   trigger:
@@ -24,3 +24,4 @@ jobs:
               "pr_action": "${{ github.event.action }}",
               "requested_reviewer": "${{ github.event.requested_reviewer.login }}"
             }'
+            
